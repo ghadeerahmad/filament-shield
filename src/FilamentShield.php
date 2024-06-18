@@ -108,7 +108,7 @@ class FilamentShield
     public static function createRole(?string $name = null)
     {
         $attributes = ['name' => $name ?? Utils::getSuperAdminName()];
-        if (Utils::isTeamsEnabled()) {
+        if (Utils::isTeamsEnabled() && !$name) {
             $team_id = static::getTeam()?->id;
             $attributes[Utils::getTeamsForeignKey()] = $team_id;
             setPermissionsTeamId($team_id);
@@ -120,7 +120,7 @@ class FilamentShield
     }
     public static function getTeam(?string $name = null)
     {
-        return Utils::getTeamModel()::whereName($name ?? Utils::getSuperAdminTeamName());
+        return Utils::getTeamModel()::whereName($name ?? Utils::getSuperAdminTeamName())->first();
     }
     /**
      * Transform filament resources to key value pair for shield
