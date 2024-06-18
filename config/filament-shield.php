@@ -22,6 +22,8 @@ return [
         'name' => 'super_admin',
         'define_via_gate' => false,
         'intercept_gate' => 'before', // after
+        'team_name' => 'super_admins',
+        'team_model' => null
     ],
 
     'panel_user' => [

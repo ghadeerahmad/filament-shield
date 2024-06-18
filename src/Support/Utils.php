@@ -222,12 +222,18 @@ class Utils
     {
         return config('permission.models.role', 'Spatie\\Permission\\Models\\Role');
     }
-
+    public static function getTeamModel(): string
+    {
+        return config('filament-shield.super_admin.team_model', null);
+    }
     public static function getPermissionModel(): string
     {
         return config('permission.models.permission', 'Spatie\\Permission\\Models\\Permission');
     }
-
+    public static function getSuperAdminTeamName(): string
+    {
+        return config('filament-shield.super_admin.team_name', 'super_admins');
+    }
     public static function discoverAllResources(): bool
     {
         return config('filament-shield.discovery.discover_all_resources', false);
@@ -241,5 +247,13 @@ class Utils
     public static function discoverAllPages(): bool
     {
         return config('filament-shield.discovery.discover_all_pages', false);
+    }
+    public static function isTeamsEnabled(): bool
+    {
+        return config('permissions.teams', false);
+    }
+    public static function getTeamsForeignKey(): string
+    {
+        return config('permissions.team_foreign_key', 'team_id');
     }
 }

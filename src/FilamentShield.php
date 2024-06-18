@@ -96,7 +96,7 @@ class FilamentShield
 
     protected static function giveSuperAdminPermission(string | array | Collection $permissions): void
     {
-        if (! Utils::isSuperAdminDefinedViaGate() && Utils::isSuperAdminEnabled()) {
+        if (!Utils::isSuperAdminDefinedViaGate() && Utils::isSuperAdminEnabled()) {
             $superAdmin = static::createRole();
 
             $superAdmin->givePermissionTo($permissions);
@@ -107,12 +107,19 @@ class FilamentShield
 
     public static function createRole(?string $name = null)
     {
+        $attributes = ['name' => $name ?? Utils::getSuperAdminName()];
+        if (Utils::isTeamsEnabled()) {
+            $attributes[Utils::getTeamsForeignKey()] = static::getTeam()?->id;
+        }
         return Utils::getRoleModel()::firstOrCreate(
-            ['name' => $name ?? Utils::getSuperAdminName()],
+            $attributes,
             ['guard_name' => Utils::getFilamentAuthGuard()]
         );
     }
-
+    public static function getTeam(?string $name = null)
+    {
+        return Utils::getTeamModel()::whereName($name ?? Utils::getSuperAdminTeamName());
+    }
     /**
      * Transform filament resources to key value pair for shield
      */
@@ -240,9 +247,9 @@ class FilamentShield
         $pageInstance = app()->make($page);
 
         return $pageInstance->getTitle()
-                ?? $pageInstance->getHeading()
-                ?? $pageInstance->getNavigationLabel()
-                ?? '';
+            ?? $pageInstance->getHeading()
+            ?? $pageInstance->getNavigationLabel()
+            ?? '';
     }
 
     /**
@@ -300,7 +307,7 @@ class FilamentShield
 
         return match (true) {
             $widgetInstance instanceof TableWidget => (string) invade($widgetInstance)->makeTable()->getHeading(),
-            ! ($widgetInstance instanceof TableWidget) && $widgetInstance instanceof Widget && method_exists($widgetInstance, 'getHeading') => (string) invade($widgetInstance)->getHeading(),
+            !($widgetInstance instanceof TableWidget) && $widgetInstance instanceof Widget && method_exists($widgetInstance, 'getHeading') => (string) invade($widgetInstance)->getHeading(),
             default => str($widget)
                 ->afterLast('\\')
                 ->headline()
@@ -336,14 +343,14 @@ class FilamentShield
                         $name = $permission . '_' . $resourceEntity['resource'];
                         $permissionLabel = FilamentShieldPlugin::get()->hasLocalizedPermissionLabels()
                             ? str(static::getLocalizedResourcePermissionLabel($permission))
-                                ->prepend(
-                                    str($resourceEntity['fqcn']::getPluralModelLabel())
-                                        ->plural()
-                                        ->title()
-                                        ->append(' - ')
-                                        ->toString()
-                                )
-                                ->toString()
+                            ->prepend(
+                                str($resourceEntity['fqcn']::getPluralModelLabel())
+                                    ->plural()
+                                    ->title()
+                                    ->append(' - ')
+                                    ->toString()
+                            )
+                            ->toString()
                             : $name;
                         $resourceLabel = FilamentShieldPlugin::get()->hasLocalizedPermissionLabels()
                             ? static::getLocalizedResourceLabel($resourceEntity['fqcn'])
