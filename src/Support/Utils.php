@@ -224,7 +224,7 @@ class Utils
     }
     public static function getTeamModel(): string
     {
-        return config('filament-shield.super_admin.team_model', null);
+        return config('filament-shield.teams.team_model', null);
     }
     public static function getPermissionModel(): string
     {
