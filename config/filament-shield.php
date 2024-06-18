@@ -87,6 +87,6 @@ return [
         'enabled' => false,
     ],
     'teams' => [
-        'team_model' => null //App\Modles\Team::class
+        'team_model' => null //App\Models\Team::class
     ]
 ];

@@ -119,7 +119,7 @@ class FilamentShield
     }
     public static function getTeam(?string $name = null)
     {
-        return Utils::getTeamModel()::whereName($name ?? Utils::getSuperAdminTeamName());
+        return Utils::getTeamModel()::whereName($name ?? Utils::getSuperAdminTeamName())->first();
     }
     /**
      * Transform filament resources to key value pair for shield
