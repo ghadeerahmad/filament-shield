@@ -111,6 +111,7 @@ class FilamentShield
         if (Utils::isTeamsEnabled()) {
             $attributes[Utils::getTeamsForeignKey()] = static::getTeam()?->id;
         }
+        dd($attributes);
         return Utils::getRoleModel()::firstOrCreate(
             $attributes,
             ['guard_name' => Utils::getFilamentAuthGuard()]

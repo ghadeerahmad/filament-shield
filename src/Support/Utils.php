@@ -250,10 +250,10 @@ class Utils
     }
     public static function isTeamsEnabled(): bool
     {
-        return config('permissions.teams', false);
+        return config('filament-shield.teams.enabled', false);
     }
     public static function getTeamsForeignKey(): string
     {
-        return config('permissions.team_foreign_key', 'team_id');
+        return config('filament-shield.teams.team_foreign_key', 'team_id');
     }
 }

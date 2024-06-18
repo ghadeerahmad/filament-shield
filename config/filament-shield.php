@@ -22,8 +22,6 @@ return [
         'name' => 'super_admin',
         'define_via_gate' => false,
         'intercept_gate' => 'before', // after
-        'team_name' => 'super_admins',
-        'team_model' => null
     ],
 
     'panel_user' => [
@@ -87,5 +85,10 @@ return [
     'register_role_policy' => [
         'enabled' => false,
     ],
-
+    'teams' => [
+        'enabled' => false,
+        'team_name' => 'super_admins',
+        'team_foreign_key' => 'team_id',
+        'team_model' => null
+    ]
 ];
