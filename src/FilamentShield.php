@@ -111,7 +111,9 @@ class FilamentShield
         if (Utils::isTeamsEnabled() && !$name) {
             $team_id = static::getTeam()?->id;
             $attributes[Utils::getTeamsForeignKey()] = $team_id;
-            setPermissionsTeamId($team_id);
+            if ($team_id) {
+                setPermissionsTeamId($team_id);
+            }
         }
         return Utils::getRoleModel()::firstOrCreate(
             $attributes,
